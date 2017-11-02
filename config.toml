@@ -1,0 +1,88 @@
+baseURL = "https://luckylh.github.io/"
+languageCode = "en-us"
+title = "Frank's Blog Site"
+theme = "hugo-nuo"
+enableRobotsTXT = true
+pygmentsuseclasses = true
+PygmentsCodeFences = true
+canonifyurls = true
+
+# Disqus Username
+disqusShortname = "disqus_shortname"
+
+# Google Analytics UA number
+googleAnalytics = "UA-109126169-1"
+
+# Copyright of your post
+copyright = "© This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you likes to quote or reproduce."
+
+# Initial site menu, you can extend menu with content.
+[[menu.main]]
+  name = "Home"
+  weight = 10
+  identifier = "home"
+  url = "/"
+
+# Add your own params here
+[params]
+  author = "Frank Liu"
+  avatar = "/img/avatar.jpg"
+  seotitle = "Frank's Blog Site"
+  subtitle = "从入门到放弃 ╮(￣▽￣)╭"
+  description = "Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again."
+  paginate = 10
+
+  # Choose your social networks
+  email = "luckylh@gmail.com"
+  github = "luckylh"
+  #twitter = "twitter_username"
+  linkedin = "luckylhcn"
+  #weibo = "weibo_username"
+  wechat= "/img/qrcode.jpg"
+  # facebook = "facebook_username"
+  # google = "googlplus_id_number"
+  # instagram = "instagram_username"
+  # youtube = "youtube_username"
+  # vimeo = "vimeo_username"
+  # medium = "medium_username"
+  # quora = "quora_username"
+  # pinterest = "pinterest_username"
+  # dribbble = "dribbble_username"
+  # behance = "behance_username"
+  # jsfiddle = "jsfiddle_username"
+  # codepen = "codepen_username"
+  # zhihu = "zhihu_username"
+  # douban = "douban_username"
+  # bilibili = "bilibili_id_number"
+
+  # Changyan Comments (China Only)
+  changyan = false
+  changyanId = ""
+  changyanConf = ""
+
+  # Google Webmaster
+  # https://www.google.com/webmasters/
+  googleSiteVerification = ""
+
+  # Bing Webmaster
+  # https://www.bing.com/toolbox/webmaster/
+  msValidate = ""
+
+  # Baidu Webmaster (China Only)
+  # https://zhanzhang.baidu.com/
+  # baiduSiteVerification = ""
+
+  # Sogou Webmaster (China Only)
+  # http://zhanzhang.sogou.com/
+  # sogouSiteVerification = ""
+
+  # 360 Webmaster (China Only)
+  # http://zhanzhang.so.com/
+  # soSiteVerification = ""
+
+  # Baidu Tongji (China Only)
+  # https://tongji.baidu.com/
+  # baiduTongji = ""
+
+  # ICP Number (China Only)
+  # ICP = ""

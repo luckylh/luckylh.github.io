@@ -8,17 +8,17 @@ PygmentsCodeFences = true
 canonifyurls = true
 
 # Disqus Username
-disqusShortname = "disqus_shortname"
+disqusShortname = "franks-blog-site"
 
 # Google Analytics UA number
 googleAnalytics = "UA-109126169-1"
 
 # Copyright of your post
-copyright = "© This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you likes to quote or reproduce."
+copyright = "© 本博客所有文章遵循Creative Attribution-Noncommercial-Share Alike Commons（知识共享署名-非商业性使用-相同方式共享 2.5 中国大陆许可协议）"
 
 # Initial site menu, you can extend menu with content.
 [[menu.main]]
-  name = "Home"
+  name = "所有博客"
   weight = 10
   identifier = "home"
   url = "/"
@@ -29,7 +29,7 @@ copyright = "© This post is licensed under a Creative Commons Attribution-NonCo
   avatar = "/img/avatar.jpg"
   seotitle = "Frank's Blog Site"
   subtitle = "从入门到放弃 ╮(￣▽￣)╭"
-  description = "Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again."
+  description = "15年IT从业经验, 关注区块链, web后端, 数据处理等各项技术."
   paginate = 10
 
   # Choose your social networks
@@ -62,27 +62,27 @@ copyright = "© This post is licensed under a Creative Commons Attribution-NonCo
 
   # Google Webmaster
   # https://www.google.com/webmasters/
-  googleSiteVerification = ""
+  googleSiteVerification = "ZOy_Sdpg2VaZrIpKusALmoUUb0whvSay2fAFzLnSzL4"
 
   # Bing Webmaster
   # https://www.bing.com/toolbox/webmaster/
-  msValidate = ""
+  msValidate = "6274A832EC64ADB274005DDB5C56A19A"
 
   # Baidu Webmaster (China Only)
   # https://zhanzhang.baidu.com/
-  # baiduSiteVerification = ""
+  baiduSiteVerification = "OHleGXO2iu"
 
   # Sogou Webmaster (China Only)
   # http://zhanzhang.sogou.com/
-  # sogouSiteVerification = ""
+  sogouSiteVerification = "FVG2B07Ui1"
 
   # 360 Webmaster (China Only)
   # http://zhanzhang.so.com/
-  # soSiteVerification = ""
+  soSiteVerification = "2a3ac95a0fc533e6e25e682227f6c5b3"
 
   # Baidu Tongji (China Only)
   # https://tongji.baidu.com/
-  # baiduTongji = ""
+  baiduTongji = "b59ac07f8233e0a9edde1b795ccdfa43"
 
   # ICP Number (China Only)
   # ICP = ""

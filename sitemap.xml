@@ -13,7 +13,31 @@
   </url>
   
   <url>
+    <loc>https://luckylh.github.io/post/ethereum-puppeth-to-create-private-chain/</loc>
+    <lastmod>2017-11-02T21:06:31+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckylh.github.io/tags/blockchain/</loc>
+    <lastmod>2017-11-02T21:06:31+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://luckylh.github.io/categories/blockchain/</loc>
+    <lastmod>2017-11-02T21:06:31+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://luckylh.github.io/categories/</loc>
+    <lastmod>2017-11-02T21:06:31+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://luckylh.github.io/tags/ethereum/</loc>
+    <lastmod>2017-11-02T21:06:31+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -24,7 +48,14 @@
   </url>
   
   <url>
+    <loc>https://luckylh.github.io/post/</loc>
+    <lastmod>2017-11-02T21:06:31+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://luckylh.github.io/tags/</loc>
+    <lastmod>2017-11-02T21:06:31+08:00</lastmod>
     <priority>0</priority>
   </url>
   

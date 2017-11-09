@@ -5,7 +5,11 @@
   <meta charset="utf-8" />
 
   
-  <title>Frank&#39;s Blog Site</title>
+  <title>
+  Category → blockchain
+  
+   | Frank&#39;s Blog Site
+</title>
 
   
   
@@ -30,7 +34,7 @@
 <meta name="generator" content="Hugo 0.30.2" />
 
 
-<link rel="canonical" href="https://luckylh.github.io/" />
+<link rel="canonical" href="https://luckylh.github.io/categories/blockchain/" />
 <link rel="alternative" href="https://luckylh.github.io/index.xml" title="Frank&#39;s Blog Site" type="application/atom+xml" />
 
 
@@ -65,6 +69,8 @@
 
 
 
+<link rel="stylesheet" href="//cdn.bootcss.com/video.js/6.2.8/alt/video-js-cdn.min.css" />
+
 <link rel="stylesheet" href="https://luckylh.github.io/css/bundle.css" />
 
 
@@ -98,7 +104,7 @@
   <header class="site-header">
   <img class="avatar" src="https://luckylh.github.io/img/avatar.jpg" alt="Avatar">
   
-  <h1 class="title">Frank&#39;s Blog Site</h1>
+  <h2 class="title">Frank&#39;s Blog Site</h2>
   
   <p class="subtitle">从入门到放弃 ╮(￣▽￣)╭</p>
   <button class="menu-toggle" type="button">
@@ -185,7 +191,7 @@
 
   <section class="main post-list">
     <header class="list-header offscreen">
-      <h2 class="list-label">All Posts</h2>
+      <h2 class="list-label">Posts List</h2>
     </header>
     
     
@@ -222,6 +228,30 @@ geth --datadir ./node1/data account new Your new account is locked with a passwo
 </footer>
 
 
+
+<script async src="//cdn.bootcss.com/video.js/6.2.8/alt/video.novtt.min.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\[','\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    }
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
 
 <script src="https://luckylh.github.io/js/bundle.js"></script>
 

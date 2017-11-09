@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Ethereum - 使用Puppeth创建以太坊私有链</title>
+
+  
+  
+
+
+
+
+  
+  <meta name="author" content="Frank Liu" />
+  <meta name="description" content="Puppeth是以太坊go客户端工具中提供的一个实用工具. 通过puppeth可以在自有环境中快速搭建起以太坊私链.
+安装Ethereum Go 客户端(geth) 下载并安装Ethereum的Go客户端, 目前最新稳定版为1.7.2
+https://ethereum.github.io/go-ethereum/downloads/
+安装完成go-ethereum后, go客户端中就带有puppeth
+搭建以太坊私有链 本文档搭建3个Ethereum节点, 分别为: node1, node2, node3.
+这3个节点可以分别安装在不同电脑上, 也可以安装在同一台电脑上.
+以下配置说明都是基于在同一台电脑上, 电脑环境:
+ OS: macOS High Sierra 10.13 go: go1.9.1 darwin/amd64 geth: 1.7.2  环境准备 分别创建3个节点目录, 每个目录下各自保存各节点的账号, 区块链数据
+mkdir ethereum cd ethereum mkdir node1 mkdir node2 mkdir node3 建立账号 为每个节点各自建立一个账号. 运行命令后会提示输入密码用于保护你的以太坊账号私钥. 这里直接回车跳过密码设置. 生成账号后, 命令返回账号对应的地址.
+geth --datadir ./node1/data account new Your new account is locked with a password. Please give a password. Do not forget this password." />
+
+  
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@gohugoio" />
+    <meta name="twitter:title" content="Ethereum - 使用Puppeth创建以太坊私有链" />
+    <meta name="twitter:description" content="Puppeth是以太坊go客户端工具中提供的一个实用工具. 通过puppeth可以在自有环境中快速搭建起以太坊私链.
+安装Ethereum Go 客户端(geth) 下载并安装Ethereum的Go客户端, 目前最新稳定版为1.7.2
+https://ethereum.github.io/go-ethereum/downloads/
+安装完成go-ethereum后, go客户端中就带有puppeth
+搭建以太坊私有链 本文档搭建3个Ethereum节点, 分别为: node1, node2, node3.
+这3个节点可以分别安装在不同电脑上, 也可以安装在同一台电脑上.
+以下配置说明都是基于在同一台电脑上, 电脑环境:
+ OS: macOS High Sierra 10.13 go: go1.9.1 darwin/amd64 geth: 1.7.2  环境准备 分别创建3个节点目录, 每个目录下各自保存各节点的账号, 区块链数据
+mkdir ethereum cd ethereum mkdir node1 mkdir node2 mkdir node3 建立账号 为每个节点各自建立一个账号. 运行命令后会提示输入密码用于保护你的以太坊账号私钥. 这里直接回车跳过密码设置. 生成账号后, 命令返回账号对应的地址.
+geth --datadir ./node1/data account new Your new account is locked with a password. Please give a password. Do not forget this password." />
+    <meta name="twitter:image" content="https://luckylh.github.io/img/avatar.jpg" />
+  
+
+
+
+
+<meta name="generator" content="Hugo 0.30.2" />
+
+
+<link rel="canonical" href="https://luckylh.github.io/post/ethereum-puppeth-to-create-private-chain/" />
+<link rel="alternative" href="https://luckylh.github.io/index.xml" title="Frank&#39;s Blog Site" type="application/atom+xml" />
+
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="format-detection" content="telephone=no,email=no,adress=no" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+
+
+<meta name="robots" content="index,follow" />
+<meta name="referrer" content="origin-when-cross-origin" />
+<meta name="google-site-verification" content="ZOy_Sdpg2VaZrIpKusALmoUUb0whvSay2fAFzLnSzL4" />
+<meta name="msvalidate.01" content="6274A832EC64ADB274005DDB5C56A19A" />
+<meta name="baidu-site-verification" content="OHleGXO2iu" />
+<meta name="sogou_site_verification" content="FVG2B07Ui1" />
+<meta name="360-site-verification" content="2a3ac95a0fc533e6e25e682227f6c5b3" />
+
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Frank&#39;s Blog Site" />
+<meta name="msapplication-tooltip" content="Frank&#39;s Blog Site" />
+<meta name='msapplication-navbutton-color' content="#5fbf5e" />
+<meta name="msapplication-TileColor" content="#5fbf5e" />
+<meta name="msapplication-TileImage" content="/img/tile-image-windows.png" />
+<link rel="icon" href="https://luckylh.github.io/img/favicon.ico" />
+<link rel="icon" type="image/png" sizes="16x16" href="https://luckylh.github.io/img/favicon-16x16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="https://luckylh.github.io/img/favicon-32x32.png" />
+<link rel="icon" sizes="192x192" href="https://luckylh.github.io/img/touch-icon-android.png" />
+<link rel="apple-touch-icon" href="https://luckylh.github.io/img/touch-icon-apple.png" />
+<link rel="mask-icon" href="https://luckylh.github.io/img/safari-pinned-tab.svg" color="#5fbf5e" />
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/video.js/6.2.8/alt/video-js-cdn.min.css" />
+
+<link rel="stylesheet" href="https://luckylh.github.io/css/bundle.css" />
+
+
+  
+  <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/video.js/6.2.8/ie8/videojs-ie8.min.js"></script>
+  <![endif]-->
+
+<!--[if lte IE 11]>
+    <script src="//cdn.bootcss.com/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+
+<script src="//cdn.bootcss.com/object-fit-images/3.2.3/ofi.min.js"></script>
+
+
+<script src="//cdn.bootcss.com/smooth-scroll/12.1.4/js/smooth-scroll.polyfills.min.js"></script>
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a title="Go to top" class="to-top is-hide"><span class="icon icon-up"></span></a>
+      
+        
+        <a title="Go to comments" class="to-comment" href="#disqus_thread"><span class="icon icon-comment"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://luckylh.github.io/img/avatar.jpg" alt="Avatar">
+  
+  <h2 class="title">Frank&#39;s Blog Site</h2>
+  
+  <p class="subtitle">从入门到放弃 ╮(￣▽￣)╭</p>
+  <button class="menu-toggle" type="button">
+    <span class="icon icon-menu"></span>
+  </button>
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item  is-active"><a href="https://luckylh.github.io/">所有博客</a></li>
+      
+        <li class="menu-item "><a href="https://luckylh.github.io/about/">关于Frank</a></li>
+      
+        <li class="menu-item "><a href="https://luckylh.github.io/copyright/">版权声明</a></li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list">
+
+      
+      <li class="social-item">
+        <a href="mailto:luckylh@gmail.com" title="Email"><span class="icon icon-email"></span></a>
+      </li>
+
+      
+      <li class="social-item">
+        <a href="//github.com/luckylh" title="GitHub"><span class="icon icon-github"></span></a>
+      </li>
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <li class="social-item">
+        <a href="https://luckylh.github.io/img/qrcode.jpg" title="Wechat"><span class="icon icon-wechat"></span></a>
+      </li>
+
+      <li class="social-item">
+        <a href="//www.linkedin.com/in/luckylhcn" title="Linkedin"><span class="icon icon-linkedin"></span></a>
+      </li>
+
+      
+
+      
+
+      
+
+      <li class="social-item">
+        <a href="https://luckylh.github.io/index.xml"><span class="icon icon-rss" title="RSS"></span></a>
+      </li>
+
+    </ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Ethereum - 使用Puppeth创建以太坊私有链</h1>
+      <p class="post-meta">@Frank Liu · Nov 2, 2017 · 4 min read</p>
+    </header>
+    <article class="post-content">
+
+<p>Puppeth是以太坊go客户端工具中提供的一个实用工具. 通过puppeth可以在自有环境中快速搭建起以太坊私链.</p>
+
+<h2 id="安装ethereum-go-客户端-geth">安装Ethereum Go 客户端(geth)</h2>
+
+<p>下载并安装Ethereum的Go客户端, 目前最新稳定版为1.7.2</p>
+
+<p><a href="https://ethereum.github.io/go-ethereum/downloads/">https://ethereum.github.io/go-ethereum/downloads/</a></p>
+
+<p>安装完成go-ethereum后, go客户端中就带有puppeth</p>
+
+<h2 id="搭建以太坊私有链">搭建以太坊私有链</h2>
+
+<p>本文档搭建3个Ethereum节点, 分别为: node1, node2, node3.</p>
+
+<p>这3个节点可以分别安装在不同电脑上, 也可以安装在同一台电脑上.</p>
+
+<p>以下配置说明都是基于在同一台电脑上, 电脑环境:</p>
+
+<ul>
+<li>OS: macOS High Sierra 10.13</li>
+<li>go: go1.9.1 darwin/amd64</li>
+<li>geth: 1.7.2</li>
+</ul>
+
+<h4 id="环境准备">环境准备</h4>
+
+<p>分别创建3个节点目录, 每个目录下各自保存各节点的账号, 区块链数据</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">mkdir ethereum
+<span class="nb">cd</span> ethereum
+mkdir node1
+mkdir node2
+mkdir node3</code></pre></div>
+<h4 id="建立账号">建立账号</h4>
+
+<p>为每个节点各自建立一个账号. 运行命令后会提示输入密码用于保护你的以太坊账号私钥. 这里直接回车跳过密码设置. 生成账号后, 命令返回账号对应的地址.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">geth --datadir ./node1/data account new
+Your new account is locked with a password. Please give a password. Do not forget this password.
+Passphrase:
+Repeat passphrase:
+Address: <span class="o">{</span>117b88219433dcbe8d24e961283bf57a800b0e91<span class="o">}</span></code></pre></div>
+<p>使用相同命令给node2, node3各自创建新账号</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">geth --datadir ./node2/data account new
+geth --datadir ./node3/data account new</code></pre></div>
+<p>记录下新生成的账号, 后续测试私链可以用到. (万一没有记录,也没有关系, 后续可以通过geth console查询)</p>
+
+<ul>
+<li>account1 address(node1):117b88219433dcbe8d24e961283bf57a800b0e91</li>
+<li>account2 address(node2):2ceb27a7d194e32dbe30f13dfb33b558c758e044</li>
+<li>account3 address(node3):7fa7dff92c1a0a3384975f7c5dd8272ec5349712</li>
+</ul>
+
+<h4 id="建立创世块-genesis-block">建立创世块(Genesis Block)</h4>
+
+<p>创世块是区块链中第一个区块(唯一无需引用前个区块的区块).
+通过运行puppeth, 来生成创世区块. 运行puppeth后首先提示输入私链名称.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">puppeth
++-----------------------------------------------------------+
+<span class="p">|</span> Welcome to puppeth, your Ethereum private network manager <span class="p">|</span>
+<span class="p">|</span>                                                           <span class="p">|</span>
+<span class="p">|</span> This tool lets you create a new Ethereum network down to  <span class="p">|</span>
+<span class="p">|</span> the genesis block, bootnodes, miners and ethstats servers <span class="p">|</span>
+<span class="p">|</span> without the hassle that it would normally entail.         <span class="p">|</span>
+<span class="p">|</span>                                                           <span class="p">|</span>
+<span class="p">|</span> Puppeth uses SSH to dial in to remote servers, and builds <span class="p">|</span>
+<span class="p">|</span> its network components out of Docker containers using the <span class="p">|</span>
+<span class="p">|</span> docker-compose toolset.                                   <span class="p">|</span>
++-----------------------------------------------------------+
+
+Please specify a network name to administer <span class="o">(</span>no spaces, please<span class="o">)</span>
+&gt;frank-private-chain
+Sweet, you can <span class="nb">set</span> this via --network<span class="o">=</span>frank-private-chain next time!</code></pre></div>
+<p>输入完私链名称后, 出现选择菜单. 选择2: 配置新创世块</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">What would you like to <span class="k">do</span>? <span class="o">(</span><span class="nv">default</span> <span class="o">=</span> stats<span class="o">)</span>
+ <span class="m">1</span>. Show network stats
+ <span class="m">2</span>. Configure new genesis
+ <span class="m">3</span>. Track new remote server
+ <span class="m">4</span>. Deploy network components</code></pre></div>
+<p>出现子菜单, 选择私链的共识机制(Consensus Protocols).</p>
+
+<ul>
+<li>proof-of-work(PoW): 工作量证明, 通过算力证明来达成共识</li>
+<li>proof-of-authority(PoA): 权威证明, 通过预先设定的权威节点来负责达成共识</li>
+</ul>
+
+<p>这里选择PoW的认证方式, 和目前以太坊主链保持一致.(PoA配置方式: 请点击<a href="#poa">传送门</a>)</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">Which consensus engine to use? <span class="o">(</span><span class="nv">default</span> <span class="o">=</span> clique<span class="o">)</span>
+ <span class="m">1</span>. Ethash - proof-of-work
+ <span class="m">2</span>. Clique - proof-of-authority
+&gt; <span class="m">1</span></code></pre></div>
+<p>选择是否需要初始化就给指定账号ether, 这里可以输入之前建立账号的地址.直接回车结束输入</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">Which accounts should be pre-funded? <span class="o">(</span>advisable at least one<span class="o">)</span>
+&gt; 0x</code></pre></div>
+<p>输入私链ID, 直接输入回车,已默认随机数作为私链ID</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">Specify your chain/network ID <span class="k">if</span> you want an explicit one <span class="o">(</span><span class="nv">default</span> <span class="o">=</span> random<span class="o">)</span>
+&gt;</code></pre></div>
+<p>创世块中可以输入个人个性化信息, 这里可以随便输入字符.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">Anything fun to embed into the genesis block? <span class="o">(</span>max <span class="m">32</span> bytes<span class="o">)</span>
+&gt;This is Frank<span class="err">&#39;</span>s private chain.</code></pre></div>
+<p>回到主菜单, 重新选择2</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">What would you like to <span class="k">do</span>? <span class="o">(</span><span class="nv">default</span> <span class="o">=</span> stats<span class="o">)</span>
+ <span class="m">1</span>. Show network stats
+ <span class="m">2</span>. Manage existing genesis
+ <span class="m">3</span>. Track new remote server
+ <span class="m">4</span>. Deploy network components
+&gt;</code></pre></div>
+<p>选择导出创世块配置文件</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"> <span class="m">1</span>. Modify existing fork rules
+ <span class="m">2</span>. Export genesis configuration
+&gt;2</code></pre></div>
+<p>在提示创世块配置文件位置时, 直接输入回车, 默认当前目录生成创世块配置文件</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">Which file to save the genesis into? <span class="o">(</span><span class="nv">default</span> <span class="o">=</span> frank-private-chain.json<span class="o">)</span>
+&gt;</code></pre></div>
+<p>创世块配置文件生成后, 会回到主菜单, 直接按Ctrl-C退出puppeth.</p>
+
+<h4 id="初始化-启动私链节点">初始化/启动私链节点</h4>
+
+<p>通过如下命令初始化各个节点的数据. 如下命令</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">geth --datadir node1/data init frank-private-chain.json
+geth --datadir node2/data init frank-private-chain.json
+geth --datadir node3/data init frank-private-chain.json</code></pre></div>
+<p>开启3个终端, 每个终端中分别启动各自的以太坊节点</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">geth --datadir ./node1/data --port <span class="m">2001</span>
+geth --datadir ./node2/data --port <span class="m">2002</span>
+geth --datadir ./node3/data --port <span class="m">2003</span></code></pre></div>
+<p>参数说明:</p>
+
+<ul>
+<li>datadir: 自定义区块链数据存储路径</li>
+<li>port: 网络监听端口(默认为30303, 安装在不同电脑上, 端口可相同. 在同一台电脑上则需要设置不同端口号)</li>
+</ul>
+
+<h3 id="添加节点">添加节点</h3>
+
+<p>私链中设置的节点, 默认是无法互相发现并连接, 需要手工添加节点.(以太坊主链则通过在代码中预设了启动节点, 可以启动发现其他节点)</p>
+
+<p>登录node1, 获取节点地址</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">geth attach ipc:node1/data/geth.ipc
+
+instance: Geth/v1.7.2-stable-1db4ecdc/darwin-amd64/go1.9.1
+coinbase: 0x117b88219433dcbe8d24e961283bf57a800b0e91
+at block: <span class="m">12</span> <span class="o">(</span>Tue, <span class="m">07</span> Nov <span class="m">2017</span> <span class="m">22</span>:59:42 CST<span class="o">)</span>
+ datadir: /Users/liuhao/Downloads/ethereum/node1/data
+ modules: admin:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0
+
+&gt; admin.nodeInfo.enode
+<span class="s2">&#34;enode://8168f0ffc7b29680c3afaaf5e88c63bf5f89d147fa8a84ca11e5205fc27886bafb6bfc6a1bde78ed2f1c02fd9eea8b53120bc548276d3f7de58e3bf4a02dd643@[::]:2001&#34;</span></code></pre></div>
+<p>在返回的节点地址中, 地址组成为&rdquo;enode://&lt;节点id&gt;@IP地址:端口&rdquo;</p>
+
+<p>将IP地址部分替换成127.0.0.1(如果是安装在不同电脑上, 则替换成当前节点所在电脑的IP地址)</p>
+
+<p>分别登录node2, node3, 添加链接到node1</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">geth attach ipc:node2/data/geth.ipc
+&gt;admin.addPeer<span class="o">(</span><span class="s2">&#34;enode://429dd761506640fd2d581927b969ecdd6876437118a6c14bf8d99096e7d98d1cd2af2da9f93614263a773bf8ec1f6e9cbf9e75b686e113341e4ced78b0673b84@127.0.0.1:2001”)</span></code></pre></div>
+<p>再次登录node1, 查看是否节点链接正确</p>
+
+<ul>
+<li>node1应该链接上2个节点(node2, node3)</li>
+<li>node2, node3 各自链接上1个节点(node1)</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">geth attach ipc:node1/data/geth.ipc
+&gt;net.peerCount
+<span class="m">2</span></code></pre></div>
+<p>也可以获得链接节点的详细信息</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">geth attach ipc:node1/data/geth.ipc
+&gt;admin.peers
+<span class="o">[{</span>
+    caps: <span class="o">[</span><span class="s2">&#34;eth/63&#34;</span><span class="o">]</span>,
+    id: <span class="s2">&#34;51fa46b906bbe98a55448d6ec84f20df1ee879123d9cbe3d25ac81982db4fb14a9b42b9f332aa7bd2d1c006f64d15c3740b0e9d1e42bb3858a4fe852d815f860&#34;</span>,
+    name: <span class="s2">&#34;Geth/v1.7.2-stable-1db4ecdc/darwin-amd64/go1.9.1&#34;</span>,
+    network: <span class="o">{</span>
+      localAddress: <span class="s2">&#34;127.0.0.1:2001&#34;</span>,
+      remoteAddress: <span class="s2">&#34;127.0.0.1:57710&#34;</span>
+    <span class="o">}</span>,
+    protocols: <span class="o">{</span>
+      eth: <span class="o">{</span>
+        difficulty: <span class="m">1048576</span>,
+        head: <span class="s2">&#34;0x632e6d1e792d4e92e85e717067bb6aa586832db03d79c5decb48d826ff7a715a&#34;</span>,
+        version: <span class="m">63</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>, <span class="o">{</span>
+    caps: <span class="o">[</span><span class="s2">&#34;eth/63&#34;</span><span class="o">]</span>,
+    id: <span class="s2">&#34;88d8df057ad1c1e863ba91a0f04fd6011bbf91ca9e806a5408a17bf653176064614e78416afbe3227b825f2ddab279e86d348bca1baaa6ae1c30f054a020fa17&#34;</span>,
+    name: <span class="s2">&#34;Geth/v1.7.2-stable-1db4ecdc/darwin-amd64/go1.9.1&#34;</span>,
+    network: <span class="o">{</span>
+      localAddress: <span class="s2">&#34;127.0.0.1:2001&#34;</span>,
+      remoteAddress: <span class="s2">&#34;127.0.0.1:57719&#34;</span>
+    <span class="o">}</span>,
+    protocols: <span class="o">{</span>
+      eth: <span class="o">{</span>
+        difficulty: <span class="m">1048576</span>,
+        head: <span class="s2">&#34;0x632e6d1e792d4e92e85e717067bb6aa586832db03d79c5decb48d826ff7a715a&#34;</span>,
+        version: <span class="m">63</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}]</span></code></pre></div>
+<h2 id="测试私链">测试私链</h2>
+
+<h4 id="挖矿">挖矿</h4>
+
+<p>使用node3节点进行挖矿, 挖矿前可以看到account3账户余额为0.</p>
+
+<p>使用miner.start()开始挖矿(geth采用CPU算力挖矿). 等待10到20秒后, 可以使用miner.stop()停止挖矿.</p>
+
+<p>再次查询余额就可以看到挖矿获得的ether</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">geth attach ipc:node3/data/geth.ipc
+&gt;eth.getBalance<span class="o">(</span>eth.accounts<span class="o">[</span><span class="m">0</span><span class="o">])</span>
+<span class="m">0</span>
+&gt;miner.start<span class="o">()</span>
+null
+&gt;miner.stop<span class="o">()</span>
+<span class="nb">true</span>
+&gt;eth.getBalance<span class="o">(</span>eth.accounts<span class="o">[</span><span class="m">0</span><span class="o">])</span>
+<span class="m">45000000000000000000</span></code></pre></div>
+<h4 id="转账">转账</h4>
+
+<p>完成挖矿后, 可以将挖到的ether转账给其他账户.</p>
+
+<p>登录node3 console, 首先解锁account3账号, 然后将指定金额的ether转账给其他账号(例子中为转账给account1账号, 如果没有在之前记录account1账号地址, 则可以通过&rdquo;eth.accounts&rdquo;获取账号地址信息).</p>
+
+<p>转账命令运行后会返回transaction id, 通过该transaction id可以查询到转账交易相关信息</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">geth attach ipc:node3/data/geth.ipc
+&gt;personal.unlockAccount<span class="o">(</span>eth.accounts<span class="o">[</span><span class="m">0</span><span class="o">])</span>
+&gt;eth.sendTransaction<span class="o">({</span>from:eth.accounts<span class="o">[</span><span class="m">0</span><span class="o">]</span>, to:<span class="s2">&#34;117b88219433dcbe8d24e961283bf57a800b0e91&#34;</span>, value:20000<span class="o">})</span>
+<span class="s2">&#34;0x9da356310da637a8b9856098d95cf08fd9feb687991abbf9bcfc4f1d7b9a08ab&#34;</span>
+&gt;eth.getTransaction<span class="o">(</span><span class="s2">&#34;0x9da356310da637a8b9856098d95cf08fd9feb687991abbf9bcfc4f1d7b9a08ab&#34;</span><span class="o">)</span></code></pre></div>
+<p><strong>注:</strong></p>
+
+<ul>
+<li>运行转账命令后, 还需要有节点进行挖矿, 否则该transaction不会被记录保存在私链的区块中.</li>
+<li>转账后剩余余额会比减去转出ether后还要小一点, 少的差额就是transaction消耗的Gas.</li>
+</ul>
+
+<h2 id="其他说明">其他说明</h2>
+
+<p><span id = "poa"></span></p>
+
+<h4 id="poa说明">PoA说明</h4>
+
+<p>建立创世块时, 也可以选择采用PoA方式的共识算法(不消耗计算力, 可以用于私链测试开发)</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">Which consensus engine to use? <span class="o">(</span><span class="nv">default</span> <span class="o">=</span> clique<span class="o">)</span>
+ <span class="m">1</span>. Ethash - proof-of-work
+ <span class="m">2</span>. Clique - proof-of-authority
+&gt; <span class="m">2</span></code></pre></div>
+<p>选择PoA后, 会提示选择出块的间隔时间. 由于是用于内部测试的私链, 可以将出块时间设置较少, 这里配置5秒.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">How many seconds should blocks take? <span class="o">(</span><span class="nv">default</span> <span class="o">=</span> <span class="m">15</span><span class="o">)</span>
+&gt; <span class="m">5</span></code></pre></div>
+<p>设置那个账号作为权威来生成块, 这里输入account3账号作为权威账号</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">Which accounts are allowed to seal? <span class="o">(</span>mandatory at least one<span class="o">)</span>
+&gt; 0x7fa7dff92c1a0a3384975f7c5dd8272ec5349712
+&gt; 0x</code></pre></div>
+<p>之后的配置和PoW的配置相同</p>
+
+<p><strong>挖矿注意:</strong></p>
+
+<p>PoA共识算法下, 在挖矿之前,需要保持账号unlock.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">geth attach ipc:node3/data/geth.ipc
+&gt; personal.unlockAccount<span class="o">(</span>eth.accounts<span class="o">[</span><span class="m">0</span><span class="o">])</span>
+&gt; miner.start<span class="o">()</span></code></pre></div>
+<h4 id="链接节点参数">链接节点参数</h4>
+
+<p>可以将启动链接节点添加到命令行参数中, 而不需要再在geth控制台中通过admin.addPeer添加节点</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">geth --datadir ./node2/data --port <span class="m">2002</span> --bootnodes enode://7b9d6c06ea731c4e3c990472fccf41e80e1f10699c526c3d02b1adf8a5bd1ca51861f10f8d55b95c666e5df607efc21063d81e9e21dbaec800865efdcbfcbe9b@127.0.0.1:2001
+geth --datadir ./node3/data --port <span class="m">2003</span> --bootnodes enode://7b9d6c06ea731c4e3c990472fccf41e80e1f10699c526c3d02b1adf8a5bd1ca51861f10f8d55b95c666e5df607efc21063d81e9e21dbaec800865efdcbfcbe9b@127.0.0.1:2001</code></pre></div></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="https://luckylh.github.io/tags/ethereum"><span class="tag">Ethereum</span></a></li>
+        
+          <li><a href="https://luckylh.github.io/tags/blockchain"><span class="tag">Blockchain</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 本博客所有文章遵循Creative Attribution-Noncommercial-Share Alike Commons（知识共享署名-非商业性使用-相同方式共享 2.5 中国大陆许可协议）
+      </p>
+    </footer>
+    
+      <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "franks-blog-site" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+    
+  </section>
+  <footer class="site-footer">
+  <p>© 2017 Frank&#39;s Blog Site</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank">Nuo</a>.</p>
+  
+</footer>
+
+
+
+<script async src="//cdn.bootcss.com/video.js/6.2.8/alt/video.novtt.min.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\[','\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    }
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+<script src="https://luckylh.github.io/js/bundle.js"></script>
+
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-109126169-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b59ac07f8233e0a9edde1b795ccdfa43";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>
